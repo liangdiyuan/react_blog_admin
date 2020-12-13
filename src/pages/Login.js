@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Button, Card, Input, Spin, message } from "antd";
 import { UserOutlined, KeyOutlined } from "@ant-design/icons";
-import axios from "axios";
-import sericePath from "../config/apiUrl";
+// import axios from "axios";
+import { login } from "../api/index";
 import "../static/css/Login.css";
 
-const Login = () => {
+const Login = (props) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -22,17 +22,16 @@ const Login = () => {
       return false;
     }
     setIsLoading(true);
-    axios({
-      method: "post",
-      url: sericePath.login,
-      data: {
-        userName,
-        password,
-      },
-      withCredentials: true, // 允许cookie跨越，https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest/withCredentials
-    })
+    login({ userName, password })
       .then((res) => {
-        console.log(res);
+        setIsLoading(false);
+        const { code, data } = res;
+        if (code === 0) {
+          localStorage.setItem("openId", data);
+          props.history.push("/");
+          return;
+        }
+        message.error("账号或密码错误");
       })
       .finally(() => {
         setIsLoading(false);

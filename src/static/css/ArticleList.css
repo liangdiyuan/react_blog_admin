@@ -1,0 +1,9 @@
+.introduce-tet {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.introduce-tet:hover {
+  white-space: initial;
+}

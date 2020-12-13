@@ -1,14 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 // import marked from "marked";
-import { createArticle } from "../api/index";
+import { updateArticle, getArticleById } from "../api/index";
 import ArticleForm from "../components/ArticleForm";
 import { message } from "antd";
 // import "../static/css/AddArticle.css";
 
-const AddArticle = (props) => {
+const EditArticle = (props) => {
+  const { id } = props.match.params;
+  const [content, setContent] = useState({});
+
+  useEffect(() => {
+    getArticleById({ id }).then((data) => {
+      setContent(data);
+    });
+  }, []);
+
   const saveArticle = (content) => {
     const { articleTitle, articleType, articleContent, introducemd } = content;
-    createArticle({
+    updateArticle({
+      id: id,
       title: articleTitle,
       typeId: articleType,
       articleContent: articleContent,
@@ -20,9 +30,9 @@ const AddArticle = (props) => {
   };
   return (
     <div>
-      <ArticleForm saveArticle={saveArticle} />
+      <ArticleForm saveArticle={saveArticle} content={content} saxeBtnTxt="保存编辑"/>
     </div>
   );
 };
 
-export default AddArticle;
+export default EditArticle;

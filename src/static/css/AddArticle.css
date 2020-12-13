@@ -92,3 +92,11 @@
 .date-select {
   margin-top: 10px;
 }
+
+.btn-box .ant-btn {
+  margin: 0 0.5rem;
+}
+
+/* .ant-col {
+  overflow: hidden;
+} */
